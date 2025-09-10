@@ -26,7 +26,8 @@ export async function connectToDatabase() {
 
     }catch(error)
     {
-
+            cached.promise  = null
+            throw error
     }
     return cached.conn
     
