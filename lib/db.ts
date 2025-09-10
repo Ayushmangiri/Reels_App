@@ -1,0 +1,33 @@
+import { error } from "console";
+import mongoose from "mongoose";
+
+const MONGODB_URI = process.env.MONGODB_URI!
+if(!MONGODB_URI){
+    throw new Error("Please define mongo_uri in the evm variable")
+}
+let cached = global.mongoose
+if(!cached){
+cached = global.mongoose = {conn: null, promise: null}
+}
+
+export async function connectToDatabase() {
+
+    if(cached.conn){
+        return cached.conn
+
+    }
+    if(!cached.promise){
+        mongoose
+        .connect(MONGODB_URI)
+        .then(()=> mongoose.connection)
+    }
+    try{
+        cached.promise = await cached.promise
+
+    }catch(error)
+    {
+
+    }
+    return cached.conn
+    
+}
